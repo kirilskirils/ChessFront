@@ -1,20 +1,16 @@
 import "./tile.css"
 import React from "react";
+import BishopBlackImg from "../../assets/bishop_black.png";
 
-interface Props
+export default function Tile({number,image})
 {
-    number: number;
-}
-
-export default function Tile({number})
-{
+    console.log(number)
     if(number % 2 === 0)
     {
-        return <div className="tile black-tile"></div>
+        return <div className="tile black-tile"><img src={image}/></div>
     }
     else
     {
-        return <div className="tile white-tile"></div>
-
+        return <div className="tile white-tile"><img src={image}/></div>
     }
 }

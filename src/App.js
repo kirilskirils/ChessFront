@@ -4,7 +4,8 @@ import Chessboard from "./components/chessboard/chessboard";
 
 function App() {
     return (
-        <Chessboard/>
+       // <img src = {require("C:\\Users\\Mykol\\Projects\\chess-front\\src\\assets\\bishop_black.png")}/>
+       <Chessboard/>
     );
 }
 
