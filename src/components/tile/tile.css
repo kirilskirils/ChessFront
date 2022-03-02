@@ -1,0 +1,13 @@
+#chessboard.tile
+{
+    width: 100px;
+    height: 100px;
+}
+#chessboard .black-tile
+{
+    background-color: whitesmoke;
+}
+#chessboard .white-tile
+{
+    background-color: navajowhite;
+}
