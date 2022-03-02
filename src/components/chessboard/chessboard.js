@@ -1,5 +1,7 @@
 import React from "react";
 import Tile from "../tile/tile"
+import {useSpring, animated} from '@react-spring/web'
+import {useDrag} from '@use-gesture/react'
 import './chessboard.css'
 import BishopBlackImg from "../../assets/bishop_black.png";
 import BishopWhiteImg from "../../assets/bishop_white.png";
@@ -14,10 +16,45 @@ import RookBlackImg from "../../assets/rook_black.png";
 import KnightBlackImg from "../../assets/knight_black.png";
 import KnightWhiteImg from "../../assets/knight_white.png";
 
+let activePiece: HTMLElement | null = null;
 
-const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
-const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
+function grabPiece(e: React.MouseEvent)
+{
+    const element = e.target;
 
+    if (element.classList.contains("chess-piece")) {
+        console.log(e.target)
+        const x = e.clientX - 50;
+        const y = e.clientY - 50;
+        element.style.position = "absolute";
+        element.style.left = `${x}px`
+        element.style.top = `${y}px`
+        activePiece = element;
+    }
+    e.stopPropagation();
+
+}
+
+function movePiece(e: React.MouseEvent) {
+    const element = e.target;
+    if (activePiece) {
+
+        const x = e.clientX - 50;
+        const y = e.clientY - 50;
+        activePiece.style.position = "absolute";
+        activePiece.style.left = `${x}px`
+        activePiece.style.top = `${y}px`
+    }
+    e.stopPropagation();
+}
+
+function dropPiece(e: React.MouseEvent) {
+    const element = e.target;
+    if (activePiece) {
+        activePiece = null;
+    }
+    e.stopPropagation();
+}
 
 const pieces: Piece[] = [];
 
@@ -46,8 +83,11 @@ pieces.push({x: 4, y: 7, image: KingBlackImg})
 for (let i = 0; i < 8; i++) {
     pieces.push({x: i, y: 6, image: PawnBlackImg})
     pieces.push({x: i, y: 1, image: PawnWhiteImg})
-
 }
+
+const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
+
 
 export default function Chessboard() {
     let board = [];
@@ -59,18 +99,23 @@ export default function Chessboard() {
             pieces.forEach((piece) => {
 
                 if ((piece.x === j && piece.y === i)) {
-                    console.log(piece.x);
-                    console.log(piece.y);
-                    console.log(piece.image);
                     img = piece.image;
 
                 }
             })
-            board.push(<Tile number={number} image={img}/>)
-
+            board.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
         }
-
     }
-    //  console.log(board);
-    return <div id="chessboard">{board}</div>
+
+
+    // addEventListener("touchmove", drag, false);
+
+    return <div
+        onMouseDown={e => grabPiece(e)}
+        onMouseUp={e => dropPiece(e)}
+        onMouseMove={e => movePiece(e)}
+        // onTouchStart={e => grabPiece(e)}
+        // onTouchEnd={e => dropPiece(e)}
+        // onTouchMove={e => movePiece(e)}
+        id="chessboard">{board}</div>
 }
