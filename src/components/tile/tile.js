@@ -2,8 +2,16 @@ import "./tile.css"
 import React from "react";
 import BishopBlackImg from "../../assets/bishop_black.png";
 
+// Class Piece extends React.Component
+// {
+//     render()
+//     {
+//         return Tile;
+//     }
+//
+// }
+
 export default function Tile({number, image}) {
-    console.log(image)
 
     if (number % 2 === 0) {
         return (
