@@ -25,31 +25,31 @@ const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
 
 var initialState = [];
-initialState.push({x: 2, y: 0, image: BishopWhiteImg, type: "b", color: "white"})
-initialState.push({x: 5, y: 0, image: BishopWhiteImg, type: "b", color: "white"})
+initialState.push({x: 2, y: 0, image: BishopWhiteImg, type: "B", color: "white"})
+initialState.push({x: 5, y: 0, image: BishopWhiteImg, type: "B", color: "white"})
 initialState.push({x: 2, y: 7, image: BishopBlackImg, type: "b", color: "black"})
 initialState.push({x: 5, y: 7, image: BishopBlackImg, type: "b", color: "black"})
 
-initialState.push({x: 0, y: 0, image: RookWhiteImg, type: "r", color: "white"})
-initialState.push({x: 7, y: 0, image: RookWhiteImg, type: "r", color: "white"})
+initialState.push({x: 0, y: 0, image: RookWhiteImg, type: "R", color: "white"})
+initialState.push({x: 7, y: 0, image: RookWhiteImg, type: "R", color: "white"})
 initialState.push({x: 7, y: 7, image: RookBlackImg, type: "r", color: "black"})
 initialState.push({x: 0, y: 7, image: RookBlackImg, type: "r", color: "white"})
 
-initialState.push({x: 1, y: 0, image: KnightWhiteImg, type: "k", color: "white"})
-initialState.push({x: 6, y: 0, image: KnightWhiteImg, type: "k", color: "white"})
-initialState.push({x: 1, y: 7, image: KnightBlackImg, type: "k", color: "black"})
-initialState.push({x: 6, y: 7, image: KnightBlackImg, type: "k", color: "black"})
+initialState.push({x: 1, y: 0, image: KnightWhiteImg, type: "N", color: "white"})
+initialState.push({x: 6, y: 0, image: KnightWhiteImg, type: "N", color: "white"})
+initialState.push({x: 1, y: 7, image: KnightBlackImg, type: "n", color: "black"})
+initialState.push({x: 6, y: 7, image: KnightBlackImg, type: "n", color: "black"})
 
-initialState.push({x: 4, y: 0, image: QueenWhiteImg, type: "q", color: "white"})
-initialState.push({x: 4, y: 7, image: QueenBlackImg, type: "q", color: "black"})
+initialState.push({x: 3, y: 0, image: QueenWhiteImg, type: "Q", color: "white"})
+initialState.push({x: 3, y: 7, image: QueenBlackImg, type: "q", color: "black"})
 
-initialState.push({x: 3, y: 0, image: KingWhiteImg, type: "k", color: "white"})
-initialState.push({x: 3, y: 7, image: KingBlackImg, type: "k", color: "black"})
+initialState.push({x: 4, y: 0, image: KingWhiteImg, type: "K", color: "white"})
+initialState.push({x: 4, y: 7, image: KingBlackImg, type: "k", color: "black"})
 
 
 for (let i = 0; i < 8; i++) {
     initialState.push({x: i, y: 6, image: PawnBlackImg, type: "p", color: "black"})
-    initialState.push({x: i, y: 1, image: PawnWhiteImg, type: "p", color: "white"})
+    initialState.push({x: i, y: 1, image: PawnWhiteImg, type: "P", color: "white"})
 }
 
 
@@ -80,7 +80,7 @@ export default function Chessboard() {
 
         if (element.classList.contains("chess-piece") && chessboard) {
             const gridX = Math.floor((e.clientX - chessboard.offsetLeft) / 100);
-            const gridY = Math.abs( Math.ceil((e.clientY - chessboard.offsetTop-800)  / 100));
+            const gridY = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100));
             setGridX(gridX);
             setGridY(gridY);
             // console.log(e.target)
@@ -138,44 +138,60 @@ export default function Chessboard() {
     }
 
     function dropPiece(e: React.MouseEvent) {
-        //console.log("DROP");
         const chessboard = chessboardRef.current;
-        const element = e.target;
         if (activePiece && chessboard) {
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / 100);
-            const y = Math.abs( Math.ceil((e.clientY - chessboard.offsetTop-800)  / 100));
+            const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100));
 
+            const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
+            const attackedPiece = pieces.find((p) => p.x === x && p.y === y);
 
+            if (currentPiece) {
+                const validMove = validator.isValidMove(gridX, gridY, x, y, currentPiece.type);
 
-            setPieces((value) => {
-                const pieces = value.map((p) => {
-                    if (p.x == gridX && p.y === gridY) {
-                        const valid = validator.isValidMove(gridX,gridY, x,y,p.type);
+                //console.log("CURR " + currentPiece.x,currentPiece.y);
+                // if(attackedPiece)
+                // {
+                //   //  console.log("ATT " + attackedPiece.x,attackedPiece.y);
+                // }
 
-                        if(valid)
+                if (validMove) {
+                    //UPDATES THE PIECE POSITION
+                    //AND IF A PIECE IS ATTACKED, REMOVES IT
+                  //  console.log(x,y);
+                    const updatedPieces = pieces.reduce((results, piece) => {
+                        //ACTIVE
+                        if(attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y)
                         {
-                         //   console.log("VALID MOVE")
-                            p.x = x;
-                            p.y = y;
-                        }
-                        else
-                        {
-                          //  console.log("INVALID MOVE")
-                            activePiece.style.poostion = 'relative'
-                            activePiece.style.removeProperty('top')
-                            activePiece.style.removeProperty('left')
 
                         }
+                        else if (piece.x === currentPiece.x && piece.y === currentPiece.y) {
 
-                    }
-                    return p;
-                });
+                            results.push(piece);
+                            piece.x = x;
+                            piece.y = y;
+                        }
+                        //OTHERS
+                        else if (!(piece.x === x && piece.y === y)) {
+                            results.push(piece);
+                        }
 
-                return pieces;
-            });
-           setActivePiece(null);
+                        return results;
+                    }, []);
+
+                    setPieces(updatedPieces);
+
+                } else {
+                    //RESETS THE PIECE POSITION
+                    activePiece.style.position = "relative";
+                    activePiece.style.removeProperty("top");
+                    activePiece.style.removeProperty("left");
+                }
+            }
+            setActivePiece(null);
         }
     }
+
 
     for (let i = verticalAxis.length - 1; i >= 0; i--) {
         for (let j = 0; j < horizontalAxis.length; j++) {
