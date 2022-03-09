@@ -5,7 +5,8 @@ import {useSpring, animated} from '@react-spring/web'
 import {useDrag} from '@use-gesture/react'
 import './chessboard.css'
 import Chess from "chess.js"
-import Validator from "../validator/validator.js";
+import Validator from "../../validator/validator.js";
+import GameService from "../../services/game.service.js"
 
 import BishopBlackImg from "../../assets/bishop_black.png";
 import BishopWhiteImg from "../../assets/bishop_white.png";
@@ -20,44 +21,73 @@ import RookBlackImg from "../../assets/rook_black.png";
 import KnightBlackImg from "../../assets/knight_black.png";
 import KnightWhiteImg from "../../assets/knight_white.png";
 
-
 const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
+var customState = [];
+const fen = "r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1 b - c3 0 19"
+// const chess = new Chess(fen);
+const validator = new Validator(fen);
+const chess = validator.getChess();
+const boardState = chess.board();
 
-var initialState = [];
-initialState.push({x: 2, y: 0, image: BishopWhiteImg, type: "B", color: "white"})
-initialState.push({x: 5, y: 0, image: BishopWhiteImg, type: "B", color: "white"})
-initialState.push({x: 2, y: 7, image: BishopBlackImg, type: "b", color: "black"})
-initialState.push({x: 5, y: 7, image: BishopBlackImg, type: "b", color: "black"})
+setPieceLocations();
 
-initialState.push({x: 0, y: 0, image: RookWhiteImg, type: "R", color: "white"})
-initialState.push({x: 7, y: 0, image: RookWhiteImg, type: "R", color: "white"})
-initialState.push({x: 7, y: 7, image: RookBlackImg, type: "r", color: "black"})
-initialState.push({x: 0, y: 7, image: RookBlackImg, type: "r", color: "white"})
+//FIX ME: DRY
+function setPieceLocations() {
+    for (let i = 0; i < boardState.length; i++) {
+        for (let j = 0; j < boardState[i].length; j++) {
+            //console.log(boardState[j][i]);
+            if (boardState[i][j]) {
+                if (boardState[i][j].color === 'w') {
+                    switch (boardState[i][j].type) {
+                        case 'p':
+                            customState.push({x: j, y: 7 - i, image: PawnWhiteImg, type: "p", color: "w"});
+                            break;
+                        case 'r':
+                            customState.push({x: j, y: 7 - i, image: RookWhiteImg, type: "r", color: "w"});
+                            break;
+                        case 'b':
+                            customState.push({x: j, y: 7 - i, image: BishopWhiteImg, type: "b", color: "w"});
+                            break;
+                        case 'q':
+                            customState.push({x: j, y: 7 - i, image: QueenWhiteImg, type: "q", color: "w"});
+                            break;
+                        case 'k':
+                            customState.push({x: j, y: 7 - i, image: KingWhiteImg, type: "k", color: "w"});
+                            break;
+                        case 'n':
+                            customState.push({x: j, y: 7 - i, image: KnightWhiteImg, type: "n", color: "w"});
+                            break;
+                    }
+                } else {
+                    switch (boardState[i][j].type) {
+                        case 'p':
+                            customState.push({x: j, y: 7 - i, image: PawnBlackImg, type: "p", color: "b"});
+                            break;
+                        case 'r':
+                            customState.push({x: j, y: 7 - i, image: RookBlackImg, type: "r", color: "b"});
+                            break;
+                        case 'b':
+                            customState.push({x: j, y: 7 - i, image: BishopBlackImg, type: "b", color: "b"});
+                            break;
+                        case 'q':
+                            customState.push({x: j, y: 7 - i, image: QueenBlackImg, type: "q", color: "b"});
+                            break;
+                        case 'k':
+                            customState.push({x: j, y: 7 - i, image: KingBlackImg, type: "k", color: "b"});
+                            break;
+                        case 'n':
+                            customState.push({x: j, y: 7 - i, image: KnightBlackImg, type: "n", color: "b"});
+                            break;
+                    }
+                }
 
-initialState.push({x: 1, y: 0, image: KnightWhiteImg, type: "N", color: "white"})
-initialState.push({x: 6, y: 0, image: KnightWhiteImg, type: "N", color: "white"})
-initialState.push({x: 1, y: 7, image: KnightBlackImg, type: "n", color: "black"})
-initialState.push({x: 6, y: 7, image: KnightBlackImg, type: "n", color: "black"})
-
-initialState.push({x: 3, y: 0, image: QueenWhiteImg, type: "Q", color: "white"})
-initialState.push({x: 3, y: 7, image: QueenBlackImg, type: "q", color: "black"})
-
-initialState.push({x: 4, y: 0, image: KingWhiteImg, type: "K", color: "white"})
-initialState.push({x: 4, y: 7, image: KingBlackImg, type: "k", color: "black"})
-
-
-for (let i = 0; i < 8; i++) {
-    initialState.push({x: i, y: 6, image: PawnBlackImg, type: "p", color: "black"})
-    initialState.push({x: i, y: 1, image: PawnWhiteImg, type: "P", color: "white"})
+            }
+        }
+    }
 }
 
-
 export default function Chessboard() {
-
-    const validator = new Validator();
-
-    // validator.printBoardASCII();
 
     const [activePiece, setActivePiece] = useState(null);
     const [gridX, setGridX] = useState(0);
@@ -66,12 +96,18 @@ export default function Chessboard() {
     const chessboardRef = useRef(null);
     let board = [];
 
-    const [pieces, setPieces] = useState(initialState);
+    const [pieces, setPieces] = useState(customState);
+    drawPieces();
 
-    useEffect(() => {
-
-    }, [pieces])
-
+    return <div
+        onMouseMove={(e) => movePiece(e)}
+        onMouseDown={(e) => grabPiece(e)}
+        onMouseUp={(e) => dropPiece(e)}
+        id="chessboard"
+        ref={chessboardRef}
+    >
+        {board}
+    </div>
 
     function grabPiece(e: React.MouseEvent) {
 
@@ -149,22 +185,15 @@ export default function Chessboard() {
             if (currentPiece) {
                 const validMove = validator.isValidMove(gridX, gridY, x, y, currentPiece.type);
 
-                //console.log("CURR " + currentPiece.x,currentPiece.y);
-                // if(attackedPiece)
-                // {
-                //   //  console.log("ATT " + attackedPiece.x,attackedPiece.y);
-                // }
-
                 if (validMove) {
-                    //UPDATES THE PIECE POSITION
-                    //AND IF A PIECE IS ATTACKED, REMOVES IT
-                  //  console.log(x,y);
+
                     const updatedPieces = pieces.reduce((results, piece) => {
-                        //ACTIVE
-                        if(attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y)
-                        {
+
+                        // ATTACKED
+                        if ((attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y) || validator.is) {
 
                         }
+                        //MOVED
                         else if (piece.x === currentPiece.x && piece.y === currentPiece.y) {
 
                             results.push(piece);
@@ -192,28 +221,20 @@ export default function Chessboard() {
         }
     }
 
+    function drawPieces() {
+        for (let i = verticalAxis.length - 1; i >= 0; i--) {
+            for (let j = 0; j < horizontalAxis.length; j++) {
 
-    for (let i = verticalAxis.length - 1; i >= 0; i--) {
-        for (let j = 0; j < horizontalAxis.length; j++) {
-            var number = j + i;
-            let img = undefined;
+                var number = j + i;
+                let img = undefined;
 
-            pieces.forEach((piece) => {
-                if ((piece.x === j && piece.y === i)) {
-                    img = piece.image;
-                }
-            })
-            board.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
+                pieces.forEach((piece) => {
+                    if ((piece.x === j && piece.y === i)) {
+                        img = piece.image;
+                    }
+                })
+                board.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
+            }
         }
     }
-
-    return <div
-        onMouseMove={(e) => movePiece(e)}
-        onMouseDown={(e) => grabPiece(e)}
-        onMouseUp={(e) => dropPiece(e)}
-        id="chessboard"
-        ref={chessboardRef}
-    >
-        {board}
-    </div>
 }

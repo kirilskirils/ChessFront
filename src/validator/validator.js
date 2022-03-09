@@ -8,11 +8,24 @@
 
 import Chess from "chess.js"
 
-const chess = new Chess()
+var chess;
 const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
 var lastMove = null;
+
 export default class validator {
+
+    constructor(fen) {
+        this.fen = fen;
+        chess = new Chess(fen);
+    }
+
+
+    getChess() {
+        if (chess) {
+            return chess
+        }
+    }
 
     printBoard() {
         //console.log(chess.board());
@@ -22,14 +35,11 @@ export default class validator {
         console.log(chess.ascii());
     }
 
-    isCapture() {
-        if(lastMove.flags == "c" || lastMove.flags == "e")
-        {
-            console.log("CAP");
+    isEnPassant() {
+        if (lastMove.flags == "e") {
+            console.log("isEnPassant");
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
 
@@ -38,11 +48,6 @@ export default class validator {
 
     isValidMove(px, py, x, y, type) {
         var move = chess.move(horizontalAxis[px] + verticalAxis[py] + horizontalAxis[x] + verticalAxis[y], {sloppy: true});
-        // console.log("FROM",horizontalAxis[px]+verticalAxis[py]);
-        // console.log("TO",horizontalAxis[x],verticalAxis[y]);
-        //console.log(type);
-        console.log(move);
-        //console.log(chess.board());
 
 
         //     if(chess)
