@@ -1,10 +1,13 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:8080/game/';
+const API_URL = 'http://localhost:8080/api/game/';
 
-export default class GameService {
+class GameService {
     createGame(username) {
-        return axios.post(API_URL + 'create', {player_name: username, headers: authHeader()});
+        console.log(authHeader());
+        return axios.post(API_URL + 'create', {playerName: username, headers: authHeader()});
     }
 }
+
+export default new GameService();

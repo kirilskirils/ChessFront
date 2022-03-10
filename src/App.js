@@ -1,8 +1,10 @@
 import './App.css';
 import Chessboard from "./components/chessboard/chessboard";
+import ChessboardCOMP from "./components/chessboard/chessboardCOMP";
 import React, {Component} from "react";
 import {Switch, Route, Link} from "react-router-dom";
 import AuthService from "./services/auth.service.js";
+import GameService from "./services/game.service.js";
 import Login from "./components/login/login.js"
 import Register from "./components/register/register.js"
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,8 +28,9 @@ class App extends Component {
     componentDidMount() {
         const user = AuthService.getCurrentUser();
 
-        if (user) {
+            if (user) {
             this.setState({
+
                 currentUser: user,
             });
         }
@@ -79,7 +82,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/register" component={Register}/>
-                    <Route exact path="/game" component={Chessboard}/>
+                    <Route exact path="/game" component={ChessboardCOMP}/>
                 </Switch>
             </div>
         </div>);

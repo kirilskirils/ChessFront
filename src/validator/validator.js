@@ -17,7 +17,9 @@ export default class validator {
 
     constructor(fen) {
         this.fen = fen;
-        chess = new Chess(fen);
+        chess = new Chess();
+        console.log(chess.fen());
+        // chess = new Chess(fen);
     }
 
 
@@ -33,6 +35,7 @@ export default class validator {
 
     printBoardASCIIprintBoardASCII() {
         console.log(chess.ascii());
+        console.log(chess.fen());
     }
 
     isEnPassant() {
@@ -53,6 +56,7 @@ export default class validator {
         //     if(chess)
         if (move != null) {
             console.log(chess.ascii());
+            console.log(chess.fen());
             if (chess.game_over()) {
                 console.log("GG");
             }

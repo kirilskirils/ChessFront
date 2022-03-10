@@ -127,8 +127,6 @@ export default function Chessboard() {
             element.style.top = `${y}px`
             setActivePiece(element);
         }
-        e.stopPropagation();
-
     }
 
     function movePiece(e: React.MouseEvent) {
