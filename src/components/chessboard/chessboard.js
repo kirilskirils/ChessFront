@@ -5,7 +5,7 @@ import {useSpring, animated} from '@react-spring/web'
 import {useDrag} from '@use-gesture/react'
 import './chessboard.css'
 import Chess from "chess.js"
-import Validator from "../../validator/validator.js";
+import MoveValidator from "../../moveValidator/moveValidator.js";
 import GameService from "../../services/game.service.js"
 
 import BishopBlackImg from "../../assets/bishop_black.png";
@@ -23,23 +23,25 @@ import KnightWhiteImg from "../../assets/knight_white.png";
 
 const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
-var customState = [];
-const fen = "r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1 b - c3 0 19"
+
+
+// var customState = [];
+// const fen = "r1k4r/p2nb1p1/2b4p/1p1n1p2/2PP4/3Q1NB1/1P3PPP/R5K1 b - c3 0 19"
 // const chess = new Chess(fen);
-const validator = new Validator(fen);
-const chess = validator.getChess();
-const boardState = chess.board();
+// const validator = new Validator(fen);
+// const chess = validator.getChess();
+// const pieceRepresentation = chess.board();
 
-setPieceLocations();
 
-//FIX ME: DRY
-function setPieceLocations() {
-    for (let i = 0; i < boardState.length; i++) {
-        for (let j = 0; j < boardState[i].length; j++) {
+//TODO: DRY
+function setPieceLocations(pieceRepresentation) {
+    let customState = [];
+    for (let i = 0; i < pieceRepresentation.length; i++) {
+        for (let j = 0; j < pieceRepresentation[i].length; j++) {
             //console.log(boardState[j][i]);
-            if (boardState[i][j]) {
-                if (boardState[i][j].color === 'w') {
-                    switch (boardState[i][j].type) {
+            if (pieceRepresentation[i][j]) {
+                if (pieceRepresentation[i][j].color === 'w') {
+                    switch (pieceRepresentation[i][j].type) {
                         case 'p':
                             customState.push({x: j, y: 7 - i, image: PawnWhiteImg, type: "p", color: "w"});
                             break;
@@ -60,7 +62,7 @@ function setPieceLocations() {
                             break;
                     }
                 } else {
-                    switch (boardState[i][j].type) {
+                    switch (pieceRepresentation[i][j].type) {
                         case 'p':
                             customState.push({x: j, y: 7 - i, image: PawnBlackImg, type: "p", color: "b"});
                             break;
@@ -85,30 +87,61 @@ function setPieceLocations() {
             }
         }
     }
+    return customState;
 }
 
-export default function Chessboard() {
+export default function Chessboard(props) {
+
+
+    console.log(props);
+    const validator = props.validator;
+    const pieceRep = props.pieceRep;
+    // console.log(validator);
+
+
+    let customState = setPieceLocations(pieceRep);
+
+    function increaseX() {
+        setPieces(customState);
+        console.log("ADD")
+    }
+
 
     const [activePiece, setActivePiece] = useState(null);
     const [gridX, setGridX] = useState(0);
     const [gridY, setGridY] = useState(0);
 
     const chessboardRef = useRef(null);
-    let board = [];
 
     const [pieces, setPieces] = useState(customState);
-    drawPieces();
+    var board = drawPieces(pieces);
+
+    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()) // default value can be anything you want
+
+    useEffect(() => {
+        console.log(fakeCurrentDate);
+        setTimeout(() => setFakeCurrentDate(new Date()), 5000);
+        var clockState = new Chess("rnbqkbnr/p1pp1ppp/4p3/1p6/8/2P2P2/PP1PP1PP/RNBQKBNR w KQkq b6 0 3").board();
+         setPieces(customState);
+    }, [fakeCurrentDate])
+
+    useEffect(() => {
+        console.log("BONK");
+        setPieces(customState);
+    }, [])
 
     return <div
         onMouseMove={(e) => movePiece(e)}
         onMouseDown={(e) => grabPiece(e)}
         onMouseUp={(e) => dropPiece(e)}
+
         id="chessboard"
-        ref={chessboardRef}
-    >
+        ref={chessboardRef}>
         {board}
+        <button onClick={increaseX}>Add</button>
     </div>
 
+//TODO: HARD CODED
     function grabPiece(e: React.MouseEvent) {
 
         const element = e.target;
@@ -168,7 +201,7 @@ export default function Chessboard() {
                 activePiece.style.top = `${y}px`;
             }
         }
-        e.stopPropagation();
+        // e.stopPropagation();
     }
 
     function dropPiece(e: React.MouseEvent) {
@@ -191,18 +224,19 @@ export default function Chessboard() {
                         if ((attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y) || validator.is) {
 
                         }
-                        //MOVED
+                        // MOVED
                         else if (piece.x === currentPiece.x && piece.y === currentPiece.y) {
 
                             results.push(piece);
                             piece.x = x;
                             piece.y = y;
                         }
-                        //OTHERS
+                        // OTHERS
                         else if (!(piece.x === x && piece.y === y)) {
                             results.push(piece);
                         }
 
+                        // console.log(results);
                         return results;
                     }, []);
 
@@ -219,7 +253,8 @@ export default function Chessboard() {
         }
     }
 
-    function drawPieces() {
+    function drawPieces(pieces) {
+        var tempBoard = [];
         for (let i = verticalAxis.length - 1; i >= 0; i--) {
             for (let j = 0; j < horizontalAxis.length; j++) {
 
@@ -231,8 +266,9 @@ export default function Chessboard() {
                         img = piece.image;
                     }
                 })
-                board.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
+                tempBoard.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
             }
         }
+        return tempBoard;
     }
 }

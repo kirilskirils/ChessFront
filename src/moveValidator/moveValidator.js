@@ -13,12 +13,12 @@ const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", 'c', 'd', 'e', 'f', 'g', 'h'];
 var lastMove = null;
 
-export default class validator {
+export default class MoveValidator {
 
-    constructor(fen) {
-        this.fen = fen;
+    constructor() {
+        // this.fen = fen;
         chess = new Chess();
-        console.log(chess.fen());
+        // console.log(chess.fen());
         // chess = new Chess(fen);
     }
 

@@ -7,29 +7,23 @@ import AuthService from "../../services/auth.service";
 
 const required = value => {
     if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
+        return (<div className="alert alert-danger" role="alert">
                 This field is required!
-            </div>
-        );
+            </div>);
     }
 };
 const vusername = value => {
     if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
+        return (<div className="alert alert-danger" role="alert">
                 The username must be between 3 and 20 characters.
-            </div>
-        );
+            </div>);
     }
 };
 const vpassword = value => {
     if (value.length < 6 || value.length > 40) {
-        return (
-            <div className="alert alert-danger" role="alert">
+        return (<div className="alert alert-danger" role="alert">
                 The password must be between 6 and 40 characters.
-            </div>
-        );
+            </div>);
     }
 };
 export default class Register extends Component {
@@ -39,10 +33,7 @@ export default class Register extends Component {
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.state = {
-            username: "",
-            password: "",
-            successful: false,
-            message: ""
+            username: "", password: "", successful: false, message: ""
         };
     }
 
@@ -61,40 +52,25 @@ export default class Register extends Component {
     handleRegister(e) {
         e.preventDefault();
         this.setState({
-            message: "",
-            successful: false
+            message: "", successful: false
         });
         this.form.validateAll();
         if (this.checkBtn.context._errors.length === 0) {
-            AuthService.register(
-                this.state.username,
-                this.state.password
-            ).then(
-                response => {
-                    this.setState({
-                        message: response.data.message,
-                        successful: true
-                    });
-                },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    this.setState({
-                        successful: false,
-                        message: resMessage
-                    });
-                }
-            );
+            AuthService.register(this.state.username, this.state.password).then(response => {
+                this.setState({
+                    message: response.data.message, successful: true
+                });
+            }, error => {
+                const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                this.setState({
+                    successful: false, message: resMessage
+                });
+            });
         }
     }
 
     render() {
-        return (
-            <div className="container mt-3">
+        return (<div className="container mt-3">
                 <div className="row justify-content-md-center">
                     <div className="col-md-3">
                         <h1>Sing Up</h1>
@@ -103,8 +79,7 @@ export default class Register extends Component {
                             ref={c => {
                                 this.form = c;
                             }}>
-                            {!this.state.successful && (
-                                <div>
+                            {!this.state.successful && (<div>
                                     <div className="form-group">
                                         <Input
                                             placeholder="Username"
@@ -130,22 +105,15 @@ export default class Register extends Component {
                                     <div className="form-group">
                                         <button className="btn btn-outline-primary col-12">Sign Up</button>
                                     </div>
-                                </div>
-                            )}
-                            {this.state.message && (
-                                <div className="form-group">
+                                </div>)}
+                            {this.state.message && (<div className="form-group">
                                     <div
-                                        className={
-                                            this.state.successful
-                                                ? "alert alert-success"
-                                                : "alert alert-danger"
-                                        }
+                                        className={this.state.successful ? "alert alert-success" : "alert alert-danger"}
                                         role="alert"
                                     >
                                         {this.state.message}
                                     </div>
-                                </div>
-                            )}
+                                </div>)}
                             <CheckButton
                                 style={{display: "none"}}
                                 ref={c => {
@@ -156,7 +124,6 @@ export default class Register extends Component {
 
                     </div>
                 </div>
-            </div>
-        );
+            </div>);
     }
 }
