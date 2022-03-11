@@ -5,8 +5,11 @@ const API_URL = 'http://localhost:8080/api/game/';
 
 class GameService {
     createGame(username) {
-        console.log(authHeader());
         return axios.post(API_URL + 'create', {playerName: username, headers: authHeader()});
+    }
+
+    getGame(id) {
+        return axios.get(API_URL + 'get/'+id, {headers: authHeader()});
     }
 }
 

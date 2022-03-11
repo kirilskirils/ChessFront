@@ -93,20 +93,11 @@ function setPieceLocations(pieceRepresentation) {
 export default function Chessboard(props) {
 
 
-    console.log(props);
-    const validator = props.validator;
-    const pieceRep = props.pieceRep;
-    // console.log(validator);
-
-
+    const pieceRep = props.validator.getChess().board();
     let customState = setPieceLocations(pieceRep);
 
-    function increaseX() {
-        setPieces(customState);
-        console.log("ADD")
-    }
 
-
+    const [validator, setValidator] = useState(props.validator);
     const [activePiece, setActivePiece] = useState(null);
     const [gridX, setGridX] = useState(0);
     const [gridY, setGridY] = useState(0);
@@ -116,14 +107,11 @@ export default function Chessboard(props) {
     const [pieces, setPieces] = useState(customState);
     var board = drawPieces(pieces);
 
-    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()) // default value can be anything you want
 
-    // useEffect(() => {
-    //     console.log(fakeCurrentDate);
-    //     setTimeout(() => setFakeCurrentDate(new Date()), 5000);
-    //     var clockState = new Chess("rnbqkbnr/p1pp1ppp/4p3/1p6/8/2P2P2/PP1PP1PP/RNBQKBNR w KQkq b6 0 3").board();
-    //      setPieces(customState);
-    // }, [fakeCurrentDate])
+    useEffect(() => {
+         setPieces(customState);
+         console.log(validator.getChess().ascii());
+    }, [props])
     //
     // useEffect(() => {
     //     console.log("BONK");
@@ -138,7 +126,6 @@ export default function Chessboard(props) {
         id="chessboard"
         ref={chessboardRef}>
         {board}
-        <button onClick={increaseX}>Add</button>
     </div>
 
 //TODO: HARD CODED
@@ -146,9 +133,6 @@ export default function Chessboard(props) {
 
         const element = e.target;
         const chessboard = chessboardRef.current;
-
-
-
 
 
         if (element.classList.contains("chess-piece") && chessboard) {

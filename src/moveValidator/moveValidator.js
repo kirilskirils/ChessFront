@@ -15,9 +15,9 @@ var lastMove = null;
 
 export default class MoveValidator {
 
-    constructor() {
-        // this.fen = fen;
-        chess = new Chess();
+    constructor(fen) {
+
+        chess = new Chess(fen);
         // console.log(chess.fen());
         // chess = new Chess(fen);
     }
@@ -39,7 +39,7 @@ export default class MoveValidator {
     }
 
     isEnPassant() {
-        if (lastMove.flags == "e") {
+        if (lastMove.flags === "e") {
             console.log("isEnPassant");
             return true;
         } else {
