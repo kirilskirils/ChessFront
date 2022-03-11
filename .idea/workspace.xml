@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e7c8f55-1a35-426d-8ac5-e02efe71bc8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessFront.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/games/games.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/chessboard/chessboardCOMP.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/register/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validator/validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,12 +81,35 @@
       <workItem from="1646944134390" duration="1001000" />
       <workItem from="1646945499802" duration="3000" />
       <workItem from="1646945510708" duration="38000" />
-      <workItem from="1646945558286" duration="14888000" />
+      <workItem from="1646945558286" duration="15023000" />
+      <workItem from="1646961233278" duration="1079000" />
     </task>
+    <task id="LOCAL−00001" summary="chess board updates">
+      <created>1646960655276</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1646960655276</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chess board updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="chess board updates" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

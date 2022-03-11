@@ -118,17 +118,17 @@ export default function Chessboard(props) {
 
     const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date()) // default value can be anything you want
 
-    useEffect(() => {
-        console.log(fakeCurrentDate);
-        setTimeout(() => setFakeCurrentDate(new Date()), 5000);
-        var clockState = new Chess("rnbqkbnr/p1pp1ppp/4p3/1p6/8/2P2P2/PP1PP1PP/RNBQKBNR w KQkq b6 0 3").board();
-         setPieces(customState);
-    }, [fakeCurrentDate])
-
-    useEffect(() => {
-        console.log("BONK");
-        setPieces(customState);
-    }, [])
+    // useEffect(() => {
+    //     console.log(fakeCurrentDate);
+    //     setTimeout(() => setFakeCurrentDate(new Date()), 5000);
+    //     var clockState = new Chess("rnbqkbnr/p1pp1ppp/4p3/1p6/8/2P2P2/PP1PP1PP/RNBQKBNR w KQkq b6 0 3").board();
+    //      setPieces(customState);
+    // }, [fakeCurrentDate])
+    //
+    // useEffect(() => {
+    //     console.log("BONK");
+    //     setPieces(customState);
+    // }, [])
 
     return <div
         onMouseMove={(e) => movePiece(e)}
@@ -147,18 +147,29 @@ export default function Chessboard(props) {
         const element = e.target;
         const chessboard = chessboardRef.current;
 
+
+
+
+
         if (element.classList.contains("chess-piece") && chessboard) {
             const gridX = Math.floor((e.clientX - chessboard.offsetLeft) / 100);
             const gridY = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100));
-            setGridX(gridX);
-            setGridY(gridY);
-            // console.log(e.target)
-            const x = e.clientX - 50;
-            const y = e.clientY - 50;
-            element.style.position = "absolute";
-            element.style.left = `${x}px`
-            element.style.top = `${y}px`
-            setActivePiece(element);
+            const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
+            console.log(currentPiece.color)
+
+            // if(currentPiece.color === "b")
+            // {
+                setGridX(gridX);
+                setGridY(gridY);
+                // console.log(e.target)
+                const x = e.clientX - 50;
+                const y = e.clientY - 50;
+                element.style.position = "absolute";
+                element.style.left = `${x}px`
+                element.style.top = `${y}px`
+                setActivePiece(element);
+            // }
+
         }
     }
 
