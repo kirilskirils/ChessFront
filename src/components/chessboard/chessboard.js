@@ -110,7 +110,7 @@ export default function Chessboard(props) {
 
     useEffect(() => {
          setPieces(customState);
-         console.log(validator.getChess().ascii());
+         // console.log(validator.getChess().ascii());
     }, [props])
     //
     // useEffect(() => {

@@ -11,6 +11,10 @@ class GameService {
     getGame(id) {
         return axios.get(API_URL + 'get/'+id, {headers: authHeader()});
     }
+
+    getOpenGames() {
+        return axios.get(API_URL + 'getall', {headers: authHeader()});
+    }
 }
 
 export default new GameService();

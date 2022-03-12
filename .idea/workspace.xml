@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e7c8f55-1a35-426d-8ac5-e02efe71bc8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/games/games.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/games/games.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/game.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/game.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +89,7 @@
       <workItem from="1646945510708" duration="38000" />
       <workItem from="1646945558286" duration="15023000" />
       <workItem from="1646961233278" duration="1079000" />
-      <workItem from="1646988583419" duration="8254000" />
+      <workItem from="1646988583419" duration="19612000" />
     </task>
     <task id="LOCAL−00001" summary="chess board updates">
       <created>1646960655276</created>
@@ -96,7 +97,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1646960655276</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="Setting custom game state from database,&#10;game reset now works correctly">
+      <created>1647019523103</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1647019523103</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,7 +122,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chess board updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="chess board updates" />
+    <MESSAGE value="Setting custom game state from database,&#10;game reset now works correctly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Setting custom game state from database,&#10;game reset now works correctly" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
