@@ -97,7 +97,7 @@ export default function Chessboard(props) {
     let customState = setPieceLocations(pieceRep);
 
 
-    const [validator, setValidator] = useState(props.validator);
+
     const [activePiece, setActivePiece] = useState(null);
     const [gridX, setGridX] = useState(0);
     const [gridY, setGridY] = useState(0);
@@ -209,14 +209,14 @@ export default function Chessboard(props) {
             const attackedPiece = pieces.find((p) => p.x === x && p.y === y);
 
             if (currentPiece) {
-                const validMove = validator.isValidMove(gridX, gridY, x, y, currentPiece.type);
+                const validMove = props.validator.isValidMove(gridX, gridY, x, y, currentPiece.type);
 
                 if (validMove) {
 
                     const updatedPieces = pieces.reduce((results, piece) => {
 
                         // ATTACKED
-                        if ((attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y) || validator.is) {
+                        if ((attackedPiece && attackedPiece.x === piece.x && attackedPiece.y === piece.y)) {
 
                         }
                         // MOVED

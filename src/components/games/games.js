@@ -4,6 +4,8 @@ import MoveValidator from "../../moveValidator/moveValidator.js";
 import Chess from "chess.js"
 import ReactDOM from 'react-dom';
 import GameService from "../../services/game.service";
+import GameRow from "../gameRow/gameRow";
+import {renderToStaticMarkup} from "react-dom/server";
 
 class Games extends React.Component {
 
@@ -11,75 +13,53 @@ class Games extends React.Component {
         super(props);
 
         this.state = {
-
-            validator: new MoveValidator(), board: Chessboard, gamesList: "INIT", number: 0
+            currentBoard : null,
+            validator: new MoveValidator(), gamesList: null, number: 1
 
         };
-        this.changeBoard = this.changeBoard.bind(this);
-        this.getGame = this.getGame.bind(this);
-        this.getOpenGames = this.getOpenGames.bind(this);
+        this.updateBoard = this.updateBoard.bind(this);
+        this.changeCurrentBoardId = this.changeCurrentBoardId.bind(this);
+        // this.getGame = this.getGame.bind(this);
+        // this.getOpenGames = this.getOpenGames.bind(this);
 
     }
 
     componentDidMount() {
+        this.getGamesList();
+
+
         this.interval = setInterval(async () => {
-
-
-            var rows = [];
-            GameService.getOpenGames().then(result => {
-                result.data.forEach(e => {
-                    rows.push(<p>{e.gameState} key={e.firstPlayerId}</p>);
-                })
-                this.setState({gamesList: this.state.gamesList = rows})
-            })
-                .catch(error => {
-                    console.error(error);
-                    this.setState({gamesList: this.state.gamesList = "ERROR GETTING GAME LIST"})
-
-
-                });
-
+            this.updateBoard(this.state.currentBoard);
+            this.getGamesList();
             this.setState({number: this.state.number = this.state.number + 1})
-        }, 2000);
+        }, 500);
 
+    }
+
+    getGamesList() {
+        let rows = [];
+
+        GameService.getOpenGames().then(result => {
+            // console.log(result.data);
+            result.data.forEach(e => {
+                rows.push(<GameRow number={e.id} firstPlayer={e.firstPlayer} secondPlayer={e.opponentPlayer}
+                                   gameStatus={e.gameStatus} joinEvent= {this.changeCurrentBoardId}/>);
+            })
+            this.setState({gamesList: this.state.gamesList = rows})
+        })
+            .catch(error => {
+                console.error(error);
+                this.setState({gamesList: this.state.gamesList = "ERROR GETTING GAME LIST"})
+            });
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
-    changeBoard(fen) {
-        if (fen) {
-            this.setState({validator: new MoveValidator(fen)});
-        } else {
-            this.setState({validator: new MoveValidator()});
-        }
-    }
-
-    async getOpenGames() {
-        // console.log("OPEN");
-        // var row = "START";
-        // // rows.push(<p>asd</p>)
-        // GameService.getOpenGames().then(result => {
-        //     // console.log(result);
-        //     return "CHANGE";
-        // })
-        //     .catch(error => {
-        //         console.error(error);
-        //         return "ERR";
-        //
-        //         // return Promise.reject(error);
-        //     });
-
-        // return row;
-
-    }
-
-    getGame() {
-        GameService.getGame(1).then(result => {
-            console.log(result);
-            // console.log(result.data.gameState);
-            this.changeBoard(result.data.gameState);
+    updateBoard(id) {
+        GameService.getGame(id).then(result => {
+            this.setState({validator: new MoveValidator(result.data.gameState,result.data.gameId)});
         })
             .catch(error => {
                 console.error(error);
@@ -87,17 +67,57 @@ class Games extends React.Component {
     }
 
 
+    getGame(id) {
+        GameService.getGame(id).then(result => {
+             console.log(result.data);
+
+            return result.data
+            // this.changeBoard(result.data.gameState);
+        })
+            .catch(error => {
+
+                console.error(error);
+                return null;
+            });
+    }
+    createGame()
+    {
+        GameService.createGame("username");
+    }
+    changeCurrentBoardId(id)
+    {
+        this.setState({currentBoard: id});
+        this.updateBoard(id);
+    }
+
+
     render() {
         return (<div>
             <div className="row">
                 <div className="col">
-                    <Chessboard validator={this.state.validator}/>
-                    <button onClick={() => this.changeBoard()}> RESET</button>
-                    <button onClick={this.getGame}> GET GAME</button>
+                    <Chessboard validator={this.state.validator} gameId="3"/>
+                    {this.state.validator.getChess().turn() === 'w' ? <p>WHITE TURN</p> : <p>BLACK TURN</p>}
+
+                    <button onClick={() => this.changeCurrentBoardId(1)}> CHANGE 1</button>
+                    <button onClick={() => this.changeCurrentBoardId(2)}> CHANGE 2</button>
+                    <button onClick={() => this.changeCurrentBoardId(99)}> CHANGE 99</button>
+
+
+                    <button onClick={() => this.getGame(3)}> GET GAME</button>
+                    <button onClick={() => this.createGame()}> CREATE GAME</button>
                 </div>
                 <div className="col">
-                    {this.state.number}
-                    {this.state.gamesList}
+
+                    <table>
+                        <tr>
+                            <th>Game ID</th>
+                            <th>Player Name</th>
+                            <th>Player Name</th>
+                            <th>Game Status</th>
+                        </tr>
+                        <tbody>{this.state.gamesList}</tbody>
+                    </table>
+                    <h2>{this.state.number}</h2>
                 </div>
 
 

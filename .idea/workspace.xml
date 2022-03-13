@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e7c8f55-1a35-426d-8ac5-e02efe71bc8f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/gameRow/gameRow.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/move.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/games/games.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/games/games.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/auth-header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/auth-header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/auth.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/game.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/game.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,8 +62,13 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28605202" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mykol\Desktop\ChessFront\src\components\gameRow" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
@@ -89,7 +96,9 @@
       <workItem from="1646945510708" duration="38000" />
       <workItem from="1646945558286" duration="15023000" />
       <workItem from="1646961233278" duration="1079000" />
-      <workItem from="1646988583419" duration="19612000" />
+      <workItem from="1646988583419" duration="19983000" />
+      <workItem from="1647046236370" duration="932000" />
+      <workItem from="1647083161162" duration="19353000" />
     </task>
     <task id="LOCAL−00001" summary="chess board updates">
       <created>1646960655276</created>
@@ -103,7 +112,13 @@
       <option name="presentableId" value="LOCAL−00002" />
       <updated>1647019523103</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL−00003" summary="Game list refreshing">
+      <created>1647046110791</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1647046110791</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,7 +138,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chess board updates" />
     <MESSAGE value="Setting custom game state from database,&#10;game reset now works correctly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Setting custom game state from database,&#10;game reset now works correctly" />
+    <MESSAGE value="Game list refreshing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Game list refreshing" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
