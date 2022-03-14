@@ -2,9 +2,13 @@ import React, {Component} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-// import { isEmail } from "validator";
 import AuthService from "../../services/auth.service";
 
+/**
+ * Required field error message
+ * @param value user entered value in textbox
+ * @returns {JSX.Element} error text
+ */
 const required = value => {
     if (!value) {
         return (<div className="alert alert-danger" role="alert">
@@ -12,15 +16,25 @@ const required = value => {
             </div>);
     }
 };
-const vusername = value => {
-    if (value.length < 3 || value.length > 20) {
+/**
+ * Username field
+ * @param value user entered text
+ * @returns {JSX.Element}
+ */
+const username = value => {
+    if (value.length < 5 || value.length > 20) {
         return (<div className="alert alert-danger" role="alert">
                 The username must be between 3 and 20 characters.
             </div>);
     }
 };
-const vpassword = value => {
-    if (value.length < 6 || value.length > 40) {
+/**
+ * Password field
+ * @param value user entered password
+ * @returns {JSX.Element}
+ */
+const password = value => {
+    if (value.length < 8 || value.length > 40) {
         return (<div className="alert alert-danger" role="alert">
                 The password must be between 6 and 40 characters.
             </div>);
@@ -37,18 +51,32 @@ export default class Register extends Component {
         };
     }
 
+
+    /**
+     * Saves values to state as it's typed
+     * @param e input event
+     */
     onChangeUsername(e) {
         this.setState({
+
             username: e.target.value
         });
     }
 
+    /**
+     * Saves values to state as it's typed
+     * @param e input event
+     */
     onChangePassword(e) {
         this.setState({
             password: e.target.value
         });
     }
 
+    /**
+     * Form validation for singing up
+     * @param e sing up event
+     */
     handleRegister(e) {
         e.preventDefault();
         this.setState({
@@ -88,7 +116,7 @@ export default class Register extends Component {
                                             name="username"
                                             value={this.state.username}
                                             onChange={this.onChangeUsername}
-                                            validations={[required, vusername]}
+                                            validations={[required, username]}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -99,7 +127,7 @@ export default class Register extends Component {
                                             name="password"
                                             value={this.state.password}
                                             onChange={this.onChangePassword}
-                                            validations={[required, vpassword]}
+                                            validations={[required, password]}
                                         />
                                     </div>
                                     <div className="form-group">

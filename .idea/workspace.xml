@@ -4,11 +4,21 @@
     <option name="FILTER_RESOLVED_ITEMS" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e7c8f55-1a35-426d-8ac5-e02efe71bc8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/games/games.css" afterDir="false" />
+    <list default="true" id="9cadd212-1d75-4713-9512-c7db9ebc3eaa" name="Changes" comment="chessboard function - &gt; component&#10;5%">
+      <change afterPath="$PROJECT_DIR$/src/route/privateRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/gameRow/gameRow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/gameRow/gameRow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chess-front.iml" beforeDir="false" afterPath="$PROJECT_DIR$/chess-front.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chessboard/chessboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/games/games.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/games/games.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/games/games.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/games/games.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/register/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/register/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tile/tile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tile/tile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/moveValidator/moveValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/auth.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/game.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/game.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -36,7 +46,14 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/components/login/login.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/App.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/index.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/services/game.service.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/components/register/register.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/services/auth.service.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/components/chessboard/chessboard.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/components/tile/tile.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -68,7 +85,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28605202" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -77,6 +94,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -91,7 +119,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6e7c8f55-1a35-426d-8ac5-e02efe71bc8f" name="Changes" comment="" />
+      <changelist id="9cadd212-1d75-4713-9512-c7db9ebc3eaa" name="Changes" comment="chessboard function - &gt; component&#10;5%" />
       <created>1646944041259</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -106,6 +134,8 @@
       <workItem from="1647046236370" duration="932000" />
       <workItem from="1647083161162" duration="19595000" />
       <workItem from="1647173040192" duration="16549000" />
+      <workItem from="1647244259889" duration="16057000" />
+      <workItem from="1647294694429" duration="5161000" />
     </task>
     <task id="LOCAL−00001" summary="chess board updates">
       <created>1646960655276</created>

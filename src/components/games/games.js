@@ -14,65 +14,57 @@ class Games extends React.Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
             currentBoard: undefined,
             activeGame: undefined,
             validator: new MoveValidator(),
-            gameRowsList: undefined,
-            gameList: undefined,
-            turn: 'w',
-            number: 1,
             currentUser: undefined,
-            createdGame: true
-
+            allowedColor: undefined
         };
-
-        this.hasCreatedGame = this.hasCreatedGame.bind(this);
-        this.updateBoard = this.updateBoard.bind(this);
-        this.changeCurrentBoardId = this.changeCurrentBoardId.bind(this);
-        this.getGamesList = this.getGamesList.bind(this);
-
+        // this.setActiveGame = this.setActiveGame.bind(this);
+        this.updateBoard = this.updateBoard.bind(this); //
+        this.changeBoard = this.changeBoard.bind(this);
+        this.createGameList = this.createGameList.bind(this);
+        this.createGameEvent = this.createGameEvent.bind(this); //
     }
 
     componentDidMount() {
 
         const user = AuthService.getCurrentUser();
 
+        // IF PLAYER HAS ACTIVE GAME CHANGE STATE TO THAT GAME
         if (user) {
             this.setState({
                 currentUser: user,
-
             });
             this.setActiveGame(user.id);
         }
-        this.getGamesList();
-
+        this.createGameList();
 
         this.interval = setInterval(async () => {
             this.updateBoard(this.state.currentBoard);
-            this.getGamesList();
-            this.setState({number: this.state.number = this.state.number + 1})
+            this.createGameList();
         }, 1000);
 
     }
 
-    getGamesList() {
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    /**
+     * Gets game list from database
+     */
+    createGameList() {
         let rows = [];
 
-        GameService.getOpenGames().then(result => {
-            // console.log(result.data);
-            result.data.forEach(e => {
-                // console.log(e.firstPlayer);
-                // console.log(this.state.currentUser.username + "DDD");
-                this.hasCreatedGame(e);
-                if(e.firstPlayer !== this.state.currentUser.username)
-                {
-                    rows.push(<GameRow number={e.id} firstPlayer={e.firstPlayer} secondPlayer={e.opponentPlayer}
-                                       gameStatus={e.gameStatus} joinEvent={() => {
-                        this.changeCurrentBoardId(e.id);
-                        GameService.deleteGame(this.state.currentUser.id);
-                        GameService.joinGame(this.state.currentUser.username,e.id);
+        GameService.getOpenGames().then(response => {
+            response.data.forEach(game => {
+                this.hasCreatedGame(game);
+                if (game.firstPlayer !== this.state.currentUser.username) {
+                    rows.push(<GameRow number={game.id} firstPlayer={game.firstPlayer} secondPlayer={game.opponentPlayer}
+                                       gameStatus={game.gameStatus} joinEvent={() => {
+                        this.joinButtonEvent(game);
                     }}/>);
                 }
 
@@ -85,24 +77,30 @@ class Games extends React.Component {
             });
     }
 
-    hasCreatedGame(e) {
-        // console.log(e.firstPlayer);
-        // console.log(this.state.currentUser.username);
-        if (e.firstPlayer === this.state.currentUser.username) {
-            // console.log("TES");
-            this.setState({createdGame: false})
-        }
-        else {
+    /**
+     * Actions that happen when Join Game is pressed
+     * @param game game object
+     */
+    joinButtonEvent(game) {
+        this.changeBoard(game.id);
+        GameService.deleteGame(this.state.currentUser.id);
+        GameService.joinGame(this.state.currentUser.id, game.id);
+    }
 
+    /**
+     * Checks if current user has created a game
+     * @param game game object
+     */
+    hasCreatedGame(game) {
+        if (game.firstPlayer === this.state.currentUser.username) {
             this.setState({createdGame: true})
         }
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-
+    /**
+     * Sets current board state from database
+     * @param id id of game
+     */
     updateBoard(id) {
         GameService.getGame(id).then(result => {
             this.setState({validator: new MoveValidator(result.data.gameState, result.data.gameId)});
@@ -112,66 +110,71 @@ class Games extends React.Component {
             });
     }
 
-
-    getGame(id) {
-        GameService.getGame(id).then(result => {
-            console.log(result.data);
-
-            return result.data
-            // this.changeBoard(result.data.gameState);
-        })
-            .catch(error => {
-
-                console.error(error);
-                return null;
-            });
-    }
-
+    /**
+     * Sets current users active game
+     * Used when page refreshes or user logs in
+     * @param playerId
+     */
     setActiveGame(playerId) {
         GameService.getActiveGame(playerId).then(result => {
-            // console.log(result);
-        this.setState({activeGame: result.data.gameId})
-            this.changeCurrentBoardId(result.data.gameId);
+            this.setState({activeGame: result.data.gameId})
+            this.changeBoard(result.data.gameId);
         })
             .catch(error => {
-
+                this.setState({activeGame: undefined})
                 console.error(error);
 
             });
     }
 
-
-
-
-
-    changeCurrentBoardId(id) {
+    /**
+     * Changes current board to that of an id
+     * @param id board id
+     */
+    changeBoard(id) {
         this.setState({currentBoard: id});
+        this.setState({activeGame: id});
         this.updateBoard(id);
     }
 
+    /**
+     * functions that are used when new game is created
+     * @returns {(function(): void)|*} button onClick function
+     */
+    createGameEvent() {
+        return () => {
+            GameService.createGame(this.state.currentUser.id).then(response => {
+                this.setState({activeGame: response.data.gameId})
+                this.setActiveGame(this.state.currentUser.id);
+                this.changeBoard(response.data.gameId);
+            }).catch(error => {
+                return null;
+            })
+        }
+
+    }
 
     render() {
         return (<div>
             <div className="row">
                 <div className="col" align="center">
-                    {/*<div className="blur">*/}
+                    {this.state.activeGame == undefined ? <div className="blur">
                         <div className="container-fluid">
                             <Chessboard validator={this.state.validator}/>
+                            {this.state.validator.getChess().turn() === 'w' ? <p>WHITE TURN</p> : <p>BLACK TURN</p>}
                         </div>
-                    {/*</div>*/}
+                    </div> : <div>
+                        <div className="container-fluid">
+                            <Chessboard validator={this.state.validator} allowedColor={this.state.allowedColor}/>
+                            {this.state.validator.getChess().turn() === 'w' ? <p>WHITE TURN</p> : <p>BLACK TURN</p>}
+                        </div>
+                    </div>}
 
-                    {this.state.validator.getChess().turn() === 'w' ? <p>WHITE TURN</p> : <p>BLACK TURN</p>}
-
-                    {/*<button onClick={() => this.changeCurrentBoardId(1)}> CHANGE 1</button>*/}
-                    {/*<button onClick={() => this.changeCurrentBoardId(2)}> CHANGE 2</button>*/}
-                    {/*<button onClick={() => this.changeCurrentBoardId(99)}> CHANGE 99</button>*/}
-                    {/*<button onClick={() => this.getGame(3)}> GET GAME</button>*/}
-
-                    {this.state.createdGame === true ?
-                        <button className="btn btn-success"
-                                onClick={this.createGameEvent()
-                                }>CREATE GAME</button> :
+                    {this.state.activeGame === undefined ? <button
+                            className="btn btn-success"
+                            onClick={this.createGameEvent()}>CREATE GAME</button> :
                         <p>GAME CREATED WAITING FOR OPPONENT TO JOIN</p>}
+
                 </div>
                 <div className="col" align="center">
 
@@ -186,7 +189,7 @@ class Games extends React.Component {
                         </thead>
                         <tbody>{this.state.gamesList}</tbody>
                     </table>
-                    <h2>{this.state.number}</h2>
+                    {/*<h2>{this.state.number}</h2>*/}
                 </div>
 
 
@@ -194,17 +197,7 @@ class Games extends React.Component {
         </div>);
     }
 
-    createGameEvent() {
-        return () =>{
-            GameService.createGame(this.state.currentUser.username).then(response => {
-                // this.getGamesList();
-                this.changeCurrentBoardId(response.data.gameId);
-            }).catch(error => {
-                return null;
-            })
-        }
 
-    }
 }
 
 export default Games;

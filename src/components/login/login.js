@@ -5,6 +5,12 @@ import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
 import './login.css';
 
+
+/**
+ * Required field error message
+ * @param value user entered value in textbox
+ * @returns {JSX.Element} error text
+ */
 const required = value => {
     if (!value) {
         return (<div className="alert alert-danger" role="alert">
@@ -24,19 +30,31 @@ export default class Login extends Component {
             username: "", password: "", loading: false, message: ""
         };
     }
-
+    /**
+     * Username field
+     * @param value user entered text
+     * @returns {JSX.Element}
+     */
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
         });
     }
 
+    /**
+     * Password field
+     * @param value user entered password
+     * @returns {JSX.Element}
+     */
     onChangePassword(e) {
         this.setState({
             password: e.target.value
         });
     }
-
+    /**
+     * Form validation for singing up
+     * @param e sing in event
+     */
     handleLogin(e) {
         e.preventDefault();
 

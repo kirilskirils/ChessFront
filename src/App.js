@@ -7,6 +7,7 @@ import Games from "./components/games/games";
 import Login from "./components/login/login.js"
 import Register from "./components/register/register.js"
 import "bootstrap/dist/css/bootstrap.min.css";
+import PrivateRoute from "./route/privateRoute";
 
 
 class App extends Component {
@@ -83,7 +84,8 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
-                        <Route exact path="/games" component={Games}/>
+                        {/*<Route exact path="/games" component={Games}/>*/}
+                        <PrivateRoute path="/games" component={Games}/>
                     </Switch>
                 </div>
             </div>

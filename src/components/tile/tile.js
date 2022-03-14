@@ -1,16 +1,11 @@
 import "./tile.css"
 import React from "react";
-import BishopBlackImg from "../../assets/bishop_black.png";
 
-// Class Piece extends React.Component
-// {
-//     render()
-//     {
-//         return Tile;
-//     }
-//
-// }
-
+/**
+ * Board tile element
+ * @param number x+y coordinate number sum, if sum equal tile is black, otherwise white
+ * @param image image to put on piece
+ */
 export default function Tile({number, image}) {
 
     if (number % 2 === 0) {

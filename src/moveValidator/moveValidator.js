@@ -8,7 +8,6 @@
 // 'q' - queenside castling
 
 import Chess from "chess.js"
-// import GameService from "../services/game.service";
 import MoveService from "../services/move.service";
 
 var chess,gameId;
@@ -20,40 +19,31 @@ var lastMove = null;
 export default class MoveValidator {
 
     constructor(fen,id) {
-
         gameId = id;
         chess = new Chess(fen);
-        // console.log(chess.fen());
-        // chess = new Chess(fen);
     }
 
 
+    /**
+     * Returns chess board object
+     * @returns {*} chess.js objects
+     */
     getChess() {
         if (chess) {
             return chess
         }
     }
 
-    printBoard() {
-        //console.log(chess.board());
-    }
 
-    printBoardASCIIprintBoardASCII() {
-        console.log(chess.ascii());
-        console.log(chess.fen());
-    }
-
-    isEnPassant() {
-        if (lastMove.flags === "e") {
-            console.log("isEnPassant");
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-
+    /**
+     * Check if move that user is trying to make is valid
+     * @param px from x coordinate
+     * @param py from y coordinate
+     * @param x to x coordinate
+     * @param y to y coordinate
+     * @param type piece type
+     * @returns {boolean} True if valid, false if invalid move
+     */
     isValidMove(px, py, x, y, type) {
         var move = chess.move(horizontalAxis[px] + verticalAxis[py] + horizontalAxis[x] + verticalAxis[y], {sloppy: true});
 

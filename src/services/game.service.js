@@ -5,8 +5,8 @@ import authService from "./auth.service";
 const API_URL = 'http://localhost:8080/api/game/';
 
 class GameService {
-    createGame(username) {
-        return axios.post(API_URL + 'create', {playerName: username, headers: authHeader()});
+    createGame(userId) {
+        return axios.post(API_URL + 'create', {userId: userId, headers: authHeader()});
     }
 
     getGame(id) {
@@ -16,8 +16,8 @@ class GameService {
     getOpenGames() {
         return axios.get(API_URL + 'getall', {headers: authHeader()});
     }
-    joinGame(username,gameId) {
-        return axios.post(API_URL + 'join', {gameId: gameId,playerName: username, headers: authHeader()});
+    joinGame(userId,gameId) {
+        return axios.post(API_URL + 'join', {gameId: gameId,userId: userId, headers: authHeader()});
     }
     deleteGame(playerId) {
         return axios.post(API_URL + 'delete', {playerId: playerId, headers: authHeader()});
@@ -25,7 +25,6 @@ class GameService {
     getActiveGame(playerId) {
         const params = {
             playerId: { toJSON: () => playerId }
-
         };
         return axios.get(API_URL + 'getActive', {params, headers: authHeader()});
     }

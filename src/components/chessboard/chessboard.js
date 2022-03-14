@@ -94,6 +94,7 @@ export default function Chessboard(props) {
 
 
     const pieceRep = props.validator.getChess().board();
+    const allowedColor = props.allowedColor;
     let customState = setPieceLocations(pieceRep);
 
 
@@ -110,13 +111,8 @@ export default function Chessboard(props) {
 
     useEffect(() => {
          setPieces(customState);
-         // console.log(validator.getChess().ascii());
     }, [props])
-    //
-    // useEffect(() => {
-    //     console.log("BONK");
-    //     setPieces(customState);
-    // }, [])
+
 
     return <div
         onMouseMove={(e) => movePiece(e)}
@@ -129,6 +125,10 @@ export default function Chessboard(props) {
     </div>
 
 //TODO: HARD CODED
+    /**
+     * Piece grab function
+     * @param e Mouse click event
+     */
     function grabPiece(e: React.MouseEvent) {
 
         const element = e.target;
@@ -139,9 +139,7 @@ export default function Chessboard(props) {
             const gridX = Math.floor((e.clientX - chessboard.offsetLeft) / 100);
             const gridY = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100));
             const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
-            console.log(currentPiece.color)
-
-            // if(currentPiece.color === "b")
+            // if(currentPiece.color === allowedColor)
             // {
                 setGridX(gridX);
                 setGridY(gridY);
@@ -157,6 +155,10 @@ export default function Chessboard(props) {
         }
     }
 
+    /**
+     * Piece moving function
+     * @param e Mouse drag event
+     */
     function movePiece(e: React.MouseEvent) {
         const chessboard = chessboardRef.current;
         const element = e.target;
@@ -196,9 +198,12 @@ export default function Chessboard(props) {
                 activePiece.style.top = `${y}px`;
             }
         }
-        // e.stopPropagation();
     }
 
+    /**
+     * Setting piece function
+     * @param e Mouse unclick event
+     */
     function dropPiece(e: React.MouseEvent) {
         const chessboard = chessboardRef.current;
         if (activePiece && chessboard) {
@@ -248,8 +253,13 @@ export default function Chessboard(props) {
         }
     }
 
+    /**
+     * Converts chess piece object array to html element array
+     * @param pieces array of chess pieces
+     * @returns {[]} Array of tiles elements
+     */
     function drawPieces(pieces) {
-        var tempBoard = [];
+        var board = [];
         for (let i = verticalAxis.length - 1; i >= 0; i--) {
             for (let j = 0; j < horizontalAxis.length; j++) {
 
@@ -261,9 +271,9 @@ export default function Chessboard(props) {
                         img = piece.image;
                     }
                 })
-                tempBoard.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
+                board.push(<Tile number={number} image={img} key={`${i},${j}`}/>)
             }
         }
-        return tempBoard;
+        return board;
     }
 }
