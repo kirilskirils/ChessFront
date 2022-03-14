@@ -16,6 +16,19 @@ class GameService {
     getOpenGames() {
         return axios.get(API_URL + 'getall', {headers: authHeader()});
     }
+    joinGame(username,gameId) {
+        return axios.post(API_URL + 'join', {gameId: gameId,playerName: username, headers: authHeader()});
+    }
+    deleteGame(playerId) {
+        return axios.post(API_URL + 'delete', {playerId: playerId, headers: authHeader()});
+    }
+    getActiveGame(playerId) {
+        const params = {
+            playerId: { toJSON: () => playerId }
+
+        };
+        return axios.get(API_URL + 'getActive', {params, headers: authHeader()});
+    }
 }
 
 export default new GameService();

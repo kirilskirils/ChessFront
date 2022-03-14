@@ -9,7 +9,7 @@ export default function GameRow({number, firstPlayer, secondPlayer, gameStatus, 
             <td>{secondPlayer}</td>
             <td>{gameStatus}</td>
             <td>
-                {!secondPlayer ? <button onClick={() => joinEvent(number)}>Join</button> : null}
+                {!secondPlayer ? <button className="btn btn-outline-success" onClick={() => joinEvent(number)}>Join</button> : null}
             </td>
         </tr>
     );
